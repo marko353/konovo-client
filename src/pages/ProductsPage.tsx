@@ -11,6 +11,8 @@ interface Product {
   imgsrc: string;
 }
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
+
 const ProductsPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState('');
@@ -31,7 +33,7 @@ const ProductsPage: React.FC = () => {
       }
 
       try {
-        const response = await fetch('http://127.0.0.1:5000/products', {
+        const response = await fetch(`${API_URL}/products`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -52,8 +54,8 @@ const ProductsPage: React.FC = () => {
         const data = await response.json();
         setProducts(data);
       } catch (err) {
-  console.error("Greška prilikom fetchovanja:", err);
-  setError('Network error, please try again.');
+        console.error("Greška prilikom fetchovanja:", err);
+        setError('Network error, please try again.');
       }
       setLoading(false);
     };
@@ -66,8 +68,10 @@ const ProductsPage: React.FC = () => {
     navigate('/login');
   };
 
+  // Kreiranje liste kategorija sa 'all' i bez duplikata
   const categories = ['all', ...Array.from(new Set(products.map(p => p.categoryName ?? 'N/A')))];
 
+  // Filtriranje proizvoda po kategoriji i pretrazi
   const filteredProducts = products.filter((product) => {
     const productCategory = product.categoryName ?? 'N/A';
     const matchesCategory = selectedCategory === 'all' || productCategory === selectedCategory;
@@ -75,6 +79,7 @@ const ProductsPage: React.FC = () => {
     return matchesCategory && matchesSearch;
   });
 
+  // Pagination logika
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
