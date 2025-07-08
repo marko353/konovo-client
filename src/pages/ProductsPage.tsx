@@ -52,7 +52,8 @@ const ProductsPage: React.FC = () => {
         const data = await response.json();
         setProducts(data);
       } catch (err) {
-        setError('Network error, please try again.');
+  console.error("Greška prilikom fetchovanja:", err);
+  setError('Network error, please try again.');
       }
       setLoading(false);
     };
