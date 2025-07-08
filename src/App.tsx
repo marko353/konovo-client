@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import ProductsPage from './pages/ProductsPage';
-// import ProductDetailPage from './pages/ProductDetailPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 
 const App: React.FC = () => {
   const token = localStorage.getItem('token');
@@ -15,10 +15,10 @@ const App: React.FC = () => {
           path="/products"
           element={token ? <ProductsPage /> : <Navigate to="/login" replace />}
         />
-        {/* <Route
+        <Route
           path="/products/:id"
           element={token ? <ProductDetailPage /> : <Navigate to="/login" replace />}
-        /> */}
+        />
         <Route path="*" element={<Navigate to={token ? "/products" : "/login"} replace />} />
       </Routes>
     </Router>
