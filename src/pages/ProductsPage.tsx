@@ -11,7 +11,8 @@ interface Product {
   imgsrc: string;
 }
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+
 
 const ProductsPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -54,9 +55,9 @@ const ProductsPage: React.FC = () => {
         const data = await response.json();
         setProducts(data);
       } catch (err) {
-        console.error("Greška prilikom fetchovanja:", err);
-        setError('Network error, please try again.');
-      }
+  console.error(err);
+}
+
       setLoading(false);
     };
 

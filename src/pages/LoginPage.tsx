@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../assets/styles/login.scss';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
