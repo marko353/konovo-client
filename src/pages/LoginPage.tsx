@@ -4,7 +4,6 @@ import '../assets/styles/login.scss';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
 
-
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -27,9 +26,11 @@ const LoginPage: React.FC = () => {
         return;
       }
 
-      const data = await response.json();
-      localStorage.setItem('token', data.token);
-      navigate('/products');
+      const data = await response.json(); // ✅ Ovo je bitno
+
+      localStorage.setItem('token', data.token); // čuvamo token
+      navigate('/products'); // preusmeravamo korisnika
+      window.location.reload(); // 🔁 refresh da App.tsx pročita novi token
     } catch (err) {
       console.error(err);
       setError('Network error, please try again.');
